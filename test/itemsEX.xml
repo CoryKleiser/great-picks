@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<lists>
+   <list>
+      <pick>
+         <ticker>CIDM</ticker>
+         <rank>1</rank>
+         <lastPriceFound>1.71</lastPriceFound>
+      </pick>      
+      <pick>
+         <ticker>SOL</ticker>
+         <rank>1</rank>
+         <lastPriceFound>1.71</lastPriceFound>
+      </pick>
+      <cat>bulls</cat>
+   </list>
+   <list>
+      <pick>
+         <ticker>LINC</ticker>
+         <rank>1</rank>
+         <lastPriceFound>1.82</lastPriceFound>
+      </pick>
+      <cat>bears</cat>
+   </list>
+</lists>
+
