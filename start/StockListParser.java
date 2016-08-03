@@ -19,7 +19,7 @@ import org.xml.sax.SAXException;
 
 /**
  *parser of XML data
- * @author moku
+ * @author corykleiser
  */
 public class StockListParser {
     private DocumentBuilder builder;
@@ -28,13 +28,16 @@ public class StockListParser {
    /**
       Constructs a parser that can parse item lists.
    */
-    public StockListParser() 
-        throws ParserConfigurationException
-    {
-        DocumentBuilderFactory dbfactory = DocumentBuilderFactory.newInstance();
-        builder = dbfactory.newDocumentBuilder();
-        XPathFactory xpfactory = XPathFactory.newInstance();
-        path = xpfactory.newXPath();
+    public StockListParser() {
+        try{
+            DocumentBuilderFactory dbfactory = DocumentBuilderFactory.newInstance();
+            builder = dbfactory.newDocumentBuilder();
+            XPathFactory xpfactory = XPathFactory.newInstance();
+            path = xpfactory.newXPath();
+        }
+        catch(ParserConfigurationException e){
+            System.err.println(e + "\nError occured while building parser");
+        }
     }
 
     /**
@@ -43,43 +46,85 @@ public class StockListParser {
       @return an array list containing all items in the XML file
     */
     public ArrayList<StockList> parse(String fileName) {
-        float lastPriceFound;
+        float lastUpdatedPrice;
         try{
             File f = new File(fileName);
             Document doc = builder.parse(f);
+            
+            //variable to hold all StockList objects
             ArrayList<StockList> stockLists = new ArrayList<>();
+            
+            //Finds amount of lists in data file
             int listCount = Integer.parseInt(path.evaluate("count(/lists/list)", doc));
+            
+            //Test out list count
             System.out.println("test listCount:" + listCount);
+            
+            //cycle through lists and instantiate StockList objects for each
             for (int i = 1; i <= listCount; i++){
 
+                //find list category from data file
                 String listCat = path.evaluate("/lists/list[" + i + "]/cat", doc);
+                //test out list category
                 System.out.println("test listCat: "+listCat);
-                String ticker = path.evaluate("/lists/list[" + i +"]/pick[1]/ticker", doc);
-                System.out.println(ticker);
                 
+                //Instantiate StockList
                 StockList list = new StockList(listCat);
 
+                //find pick count
                 int pickCount = Integer.parseInt(path.evaluate("count(/lists/list["+i+"]/pick)", doc));
+                //test out pick count
                 System.out.println("test pickCount: "+pickCount);
 
-                
+                //cycle through picks and instantiate Pick objects for each
                 for (int j = 1; j <= pickCount; j++){
-                    ticker = path.evaluate("/lists/list[" + i +"]/pick["+j+"]/ticker", doc);
+                    
+                    //find ticker
+                    String ticker = path.evaluate("/lists/list[" + i +"]/pick["+j+"]/ticker", doc);
+                    //test out ticker
                     System.out.println("test ticker: "+ticker);
+                    
+                    //find rank
                     int rank = Integer.parseInt(path.evaluate("/lists/list[" + i + "]/pick[" + j + "]/rank", doc));
+                    //test out rank
                     System.out.println("test   " + rank);
-                    lastPriceFound = Float.parseFloat(path.evaluate("/lists/list/pick[" + j + "]/lastPriceFound", doc));
+                    
+                    //get Last updated price
+                    lastUpdatedPrice = Float.parseFloat(path.evaluate("/lists/list/pick[" + j + "]/lastUpdatedPrice", doc));
+                    
+                    //instantiate Pick object
                     list.addPick(ticker, rank);
-                    System.out.println("test: " + list);
                 }
+                //add finished StockList to list
                 stockLists.add(list);
             }
+            // return array of StockList objects
             return stockLists;
         }
-        catch(IOException | XPathExpressionException | SAXException e){
+        catch(IOException | XPathExpressionException | SAXException | NumberFormatException e){
             System.err.println(e);
             return null;
         }
+    }
+    public ArrayList<String> listCategories(ArrayList<StockList> l){
+        
+        //instantiates categories variable for display
+        ArrayList<String> categories = null;
+
+        //Finds amount of lists in data file
+        int cycleCount = l.size();
+        //gets individual categories
+        for (int i=0; i <= cycleCount; i++){
+            //test out category
+            System.out.println(l.get(i).pickCategory);
+            //find cat
+            String cat = l.get(i).pickCategory;
+            //add cat to list
+            categories.add(cat);
+
+        }
+        
+        return categories;
     }
 }
 

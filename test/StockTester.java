@@ -21,23 +21,14 @@ public class StockTester {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        ArrayList<StockList> yourLists;
+        ArrayList<StockList> yourLists = null;
         
         
-        //TODO Parse XML file here
-//        try {
-//            StockListParser parser = new StockListParser();
-//            yourLists = parser.parse("src/com/test/itemsEX.xml");
-//            
-//            System.out.println(yourLists);
-//            yourLists.stream().forEach((aList) -> {
-//                System.out.print(aList.pickCategory);
-//            });
-//        }
-//        catch (ParserConfigurationException e){
-//            System.err.println(e);
-//        }
+        StockListParser parser = new StockListParser();
+        yourLists = parser.parse("src/com/test/itemsEX.xml");
+        for (StockList aList : yourLists){
+            System.out.println(aList.pickCategory);
+        }
         
         // TODO: code application logic here
         System.out.println("Hello");

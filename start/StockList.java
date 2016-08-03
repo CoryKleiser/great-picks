@@ -28,17 +28,32 @@ public class StockList {
         pickCategory = cat;
     }
     
+    /**
+     * Instantiates Pick object and ties to StockList object
+     * @param ticker
+     * @param rank 
+     */
     public void addPick(String ticker, int rank){
         Pick aStock = new Pick(ticker, rank);
         picks.add(aStock);
     }
     
+    /**
+     * Finds more specific details for user
+     * @param i place in Pick array
+     * @return specific details
+     */
     public String getData(int i){
+        //TODO: set up which data to pull and return
         Pick stock = picks.get(i);
         String d = stock.format();
         return d;
     }
     
+    /**
+     * formats stock data for console tests
+     * @return 
+     */
     public String format(){
         String r = "    " + pickCategory + "    Weekly Picks\n\n";
         for(Pick stock : picks){

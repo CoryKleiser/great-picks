@@ -14,7 +14,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -26,15 +25,18 @@ import org.xml.sax.SAXException;
 
 /**
  *
- * @author moku
+ * @author corykleiser
  */
 public class StockListChanger {
     private DocumentBuilder builder;
     private Document doc;
     private XPath path;
+    Scanner in = new Scanner(System.in);
 
 
-    
+    /**
+     * Lets user add a new list to their portfolio
+     */
     public void addNewList(){
             
         try{
@@ -44,7 +46,6 @@ public class StockListChanger {
             Element root = doc.getDocumentElement();
 
         
-            Scanner in = new Scanner(System.in);
         
             Element list = doc.createElement("list");
             System.out.print("Please enter a title or category for the new list:   ");
@@ -59,44 +60,21 @@ public class StockListChanger {
             while (edit){
                 System.out.print("Please enter the ticker of the stock you would like to add:   ");
                 String ticker = in.next();
-                int rank = 0;
-                Element pick = doc.createElement("pick");
-                Element tik = doc.createElement("ticker");
-                tik.appendChild(doc.createTextNode(ticker));
-                pick.appendChild(tik);
-            
-                boolean valid = false;
-                while (!valid) {
-                    try {
-                        System.out.print("Please enter a rank you would like to associate with the stock:   ");
-                        rank = in.nextInt();
-                        
-
-                        valid = true;
-                    }
-                    catch(InputMismatchException e){
-                        System.err.println("\nPlease enter your rank as an integer:   ");
-                        rank = in.nextInt();
-                    }
-                }
-                Element r = doc.createElement("rank");                
-                r.appendChild(doc.createTextNode(Integer.toString(rank)));
-                pick.appendChild(r);
-                newList.addPick(ticker, rank);
-
                 
-                
+                Element pick = addPick(newList, ticker);
 
-            
 
-//TODO:: Add all variables taken from the yahooAPI to one function
-
+                //find picks last updated info for possible offline display.
                 findLastPickInfo(newList, pick);
-            
-                System.out.println("Would you like to add another stock to your new list? (Y/N)   ");
-                String response = in.next();
+                
+                //appends pick to list and list to root
                 list.appendChild(pick);
                 root.appendChild(list);
+                
+                //TODO: turn this into a function
+                System.out.println("Would you like to add another stock to your new list? (Y/N)   ");
+                String response = in.next();
+
 
                 while(!response.equals("N")&!response.equals("Y")){
                     System.out.println("!! INVALID INPUT :: Please Enter Y or N");
@@ -118,12 +96,54 @@ public class StockListChanger {
         }
     }
 
-    private void findLastPickInfo(StockList newList, Element pick){
+    private void findLastPickInfo(StockList list, Element pick){
         Element p = doc.createElement("lastUpdatedPrice");
 
-        int place = newList.picks.size()-1;
-        String lastUpdatedPrice = newList.picks.get(place).sharePrice.toString();
+        int place = list.picks.size()-1;
+        String lastUpdatedPrice = list.picks.get(place).sharePrice.toString();
         p.appendChild(doc.createTextNode(lastUpdatedPrice));
         pick.appendChild(p);
+    }
+    /**
+     * adds pick to specified list
+     * creates Pick object
+     * creates XML element to append
+     * @param list
+     * @param ticker
+     * @return Element
+     */
+    private Element addPick(StockList list, String ticker){
+        //Instantiate necessary variables
+        int rank = 0;
+        Element pick = doc.createElement("pick");
+        Element tik = doc.createElement("ticker");
+        Element r = doc.createElement("rank");
+
+        //Error Handler
+        boolean valid = false;
+        while (!valid) {
+            try {
+
+                System.out.print("Please enter a rank you would like to associate with the stock:   ");
+                rank = in.nextInt();
+
+                valid = true;
+            }
+            catch(InputMismatchException e){
+                System.err.println("\nINVALID INPUT::   Please enter your rank as an integer:   ");
+                rank = in.nextInt();
+            }
+        }
+
+        //Instantiate Pick Object in StockList
+        list.addPick(ticker, rank);
+
+
+        //create xml element and return
+        tik.appendChild(doc.createTextNode(ticker));
+        pick.appendChild(tik);
+        r.appendChild(doc.createTextNode(Integer.toString(rank)));
+        pick.appendChild(r);
+        return pick;
     }
 }
