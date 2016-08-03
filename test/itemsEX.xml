@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
-<lists>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><lists>
    <list>
       <pick>
          <ticker>CIDM</ticker>
@@ -22,4 +21,3 @@
       <cat>bears</cat>
    </list>
 </lists>
-

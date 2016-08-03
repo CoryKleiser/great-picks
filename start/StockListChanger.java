@@ -12,6 +12,12 @@ import java.util.Scanner;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPath;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -52,51 +58,54 @@ public class StockListChanger {
 
             boolean edit = true;
             while (edit){
-                    System.out.print("Please enter the ticker of the stock you would like to add:   ");
+                System.out.print("Please enter the ticker of the stock you would like to add:   ");
                 String ticker = in.next();
+                Element pick = doc.createElement("pick");
                 Element tik = doc.createElement("ticker");
                 tik.appendChild(doc.createTextNode(ticker));
-                list.appendChild(tik);
+                pick.appendChild(tik);
             
             
                 System.out.print("Please enter a rank you would like to associate with the stock:   ");
                 int rank = in.nextInt();
                 Element r = doc.createElement("rank");
                 r.appendChild(doc.createTextNode(Integer.toString(rank)));
-                list.appendChild(r);
+                pick.appendChild(r);
             
                 newList.addPick(ticker, rank);
             
-                Element p = doc.createElement("lastUpdatedPrice");
 
 //TODO:: Create and add price: 
                 //Maybe add function then call to update all prices on list.
                 //Maybe add i int at beginning of while to acess array then convert and add to xml.
-            
-//            p.appendChild(doc.createTextNode());
+//                Element p = doc.createElement("lastUpdatedPrice");
+//                p.appendChild(doc.createTextNode());
             
                 System.out.println("Would you like to add another stock to your new list? (Y/N)   ");
                 String response = in.next();
-            
+                list.appendChild(pick);
                 root.appendChild(list);
 
                 while(!response.equals("N")&!response.equals("Y")){
-                    System.out.println("     !! INVALID INPUT :: Please Enter Y or N");
+                    System.out.println("!! INVALID INPUT :: Please Enter Y or N");
                     response = in.next();
-                    System.out.println(response);
                 }            
-
                 if(response.equals("Y")){
                     continue;
                 }
 
                 else{
-                    System.out.println(response);
                     edit = false;
                 }
             }
+//   Update DOM
+            DOMSource update = new DOMSource(doc);
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            StreamResult previous = new StreamResult("src/com/test/itemsEX.xml");
+            transformer.transform(update, previous);
         }
-        catch(ParserConfigurationException | SAXException | IOException e){
+        catch(ParserConfigurationException | SAXException | IOException | TransformerException e){
             System.err.println(e);
         }
     }
