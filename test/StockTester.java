@@ -24,18 +24,20 @@ public class StockTester {
         Scanner in = new Scanner(System.in);
         ArrayList<StockList> yourLists;
         
-        try {
-            StockListParser parser = new StockListParser();
-            yourLists = parser.parse("src/com/test/itemsEX.xml");
-            
-            System.out.println(yourLists);
-            yourLists.stream().forEach((aList) -> {
-                System.out.print(aList.pickCategory);
-            });
-        }
-        catch (ParserConfigurationException e){
-            System.err.println(e);
-        }
+        
+        //TODO Parse XML file here
+//        try {
+//            StockListParser parser = new StockListParser();
+//            yourLists = parser.parse("src/com/test/itemsEX.xml");
+//            
+//            System.out.println(yourLists);
+//            yourLists.stream().forEach((aList) -> {
+//                System.out.print(aList.pickCategory);
+//            });
+//        }
+//        catch (ParserConfigurationException e){
+//            System.err.println(e);
+//        }
         
         // TODO: code application logic here
         System.out.println("Hello");

@@ -17,7 +17,7 @@ import yahoofinance.YahooFinance;
  */
 public class StockList {
     public String pickCategory; 
-    private ArrayList<Pick> picks;
+    public ArrayList<Pick> picks;
     
 /**
  * Creates a Category for your picks i.e. bulls/bear/week/month etc
@@ -38,7 +38,6 @@ public class StockList {
         String d = stock.format();
         return d;
     }
-    
     
     public String format(){
         String r = "    " + pickCategory + "    Weekly Picks\n\n";
