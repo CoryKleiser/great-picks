@@ -26,9 +26,10 @@ public class StockTester {
         
         StockListParser parser = new StockListParser();
         yourLists = parser.parse("src/com/test/itemsEX.xml");
-        for (StockList aList : yourLists){
-            System.out.println(aList.pickCategory);
-        }
+
+        //initial categories
+        System.out.println(parser.listCategories(yourLists));
+
         
         // TODO: code application logic here
         System.out.println("Hello");
@@ -39,23 +40,11 @@ public class StockTester {
             StockListChanger changer = new StockListChanger();
             changer.addNewList();
         
+        //updated categories
         System.out.println(parser.listCategories(yourLists));
         
         
         
-//        
-//        StockList test = new StockList("Bulls of the Week!");
-//        
-//        test.addPick("TSLA", 1);
-//        test.addPick("SOL", 2);
-//        test.addPick("CIDM", 3);
-//        test.addPick("GOOGL", 1);
-//        test.addPick("AAPL", 10);
-//        
-//        System.out.println(test.getData(1));
-//        
-//        System.out.println(test.format());
-//        
 //        String pullStockData = "http://finance.yahoo.com/d/quotes.csv?sTIK=&f=snd1l1yr";
     }
 }

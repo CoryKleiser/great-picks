@@ -23,6 +23,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
+
 /**
  *
  * @author corykleiser
@@ -60,8 +61,24 @@ public class StockListChanger {
             while (edit){
                 System.out.print("Please enter the ticker of the stock you would like to add:   ");
                 String ticker = in.next();
-                
-                Element pick = addPick(newList, ticker);
+                int rank = 0;
+                        //Error Handler
+                boolean valid = false;
+                while (!valid) {
+                    try {
+
+                        System.out.print("Please enter a rank you would like to associate with the stock:   ");
+                        rank = in.nextInt();
+
+                        valid = true;
+                    }
+                    catch(InputMismatchException e) {
+                        System.err.println("\nINVALID INPUT::   Please enter your rank as an integer:   ");
+                        rank = in.nextInt();
+                    }
+                }
+            
+                Element pick = addPick(newList, ticker, rank);
 
 
                 //find picks last updated info for possible offline display.
@@ -98,9 +115,22 @@ public class StockListChanger {
 
     private void findLastPickInfo(StockList list, Element pick){
         Element p = doc.createElement("lastUpdatedPrice");
+        String lastUpdatedPrice = "";
 
         int place = list.picks.size()-1;
-        String lastUpdatedPrice = list.picks.get(place).sharePrice.toString();
+        boolean t=false;
+
+        while(!t){
+            try{
+
+                lastUpdatedPrice = list.picks.get(place).getSharePrice().toString();
+                t=true;
+            }
+            catch(NullPointerException e){
+                System.out.println("That is not a Ticker on any market I know. Please try again.   ");
+            }
+        }
+       
         p.appendChild(doc.createTextNode(lastUpdatedPrice));
         pick.appendChild(p);
     }
@@ -112,28 +142,11 @@ public class StockListChanger {
      * @param ticker
      * @return Element
      */
-    private Element addPick(StockList list, String ticker){
+    private Element addPick(StockList list, String ticker, int rank){
         //Instantiate necessary variables
-        int rank = 0;
         Element pick = doc.createElement("pick");
         Element tik = doc.createElement("ticker");
         Element r = doc.createElement("rank");
-
-        //Error Handler
-        boolean valid = false;
-        while (!valid) {
-            try {
-
-                System.out.print("Please enter a rank you would like to associate with the stock:   ");
-                rank = in.nextInt();
-
-                valid = true;
-            }
-            catch(InputMismatchException e){
-                System.err.println("\nINVALID INPUT::   Please enter your rank as an integer:   ");
-                rank = in.nextInt();
-            }
-        }
 
         //Instantiate Pick Object in StockList
         list.addPick(ticker, rank);
