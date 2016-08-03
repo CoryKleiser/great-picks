@@ -39,7 +39,7 @@ public class StockTester {
             StockListChanger changer = new StockListChanger();
             changer.addNewList();
         
-        
+        System.out.println(parser.listCategories(yourLists));
         
         
         

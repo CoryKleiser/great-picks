@@ -107,24 +107,32 @@ public class StockListParser {
         }
     }
     public ArrayList<String> listCategories(ArrayList<StockList> l){
-        
-        //instantiates categories variable for display
-        ArrayList<String> categories = null;
+        try{
+            //instantiates categories variable for display
+            ArrayList<String> categories = null;
 
-        //Finds amount of lists in data file
-        int cycleCount = l.size();
-        //gets individual categories
-        for (int i=0; i <= cycleCount; i++){
-            //test out category
-            System.out.println(l.get(i).pickCategory);
-            //find cat
-            String cat = l.get(i).pickCategory;
-            //add cat to list
-            categories.add(cat);
+            //Finds amount of lists in data file
+            int cycleCount = l.size();
+            //gets individual categories
+            for (int i=0; i < cycleCount; i++){
+                //test out category
+                System.out.println(l.get(i).pickCategory);
+                //find cat
+                String cat = l.get(i).pickCategory;
+                //test out cat
+                System.out.println(cat);
+                //add cat to list
+                categories.add(cat);
+                System.out.println(cat);
 
+            }
+
+            return categories;
+    }
+        catch(NullPointerException e){
+            System.err.println(e);
+            return null;
         }
-        
-        return categories;
     }
 }
 
