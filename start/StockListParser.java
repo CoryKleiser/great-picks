@@ -56,10 +56,7 @@ public class StockListParser {
             
             //Finds amount of lists in data file
             int listCount = Integer.parseInt(path.evaluate("count(/lists/list)", doc));
-            
-            //Test out list count
-            System.out.println("test listCount:" + listCount);
-            
+                        
             //cycle through lists and instantiate StockList objects for each
             for (int i = 1; i <= listCount; i++){
 
