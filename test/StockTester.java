@@ -80,6 +80,7 @@ public class StockTester {
                                 System.out.print("\nPick "+i+")     "+pick.getTicker()+"       Price: "+pick.getSharePrice()+" "+pick.getStock().getCurrency()+"\n");
                             }
                             i=0;
+                            //::     company financial details time
                             try{
                                 //prompt user
                                 System.out.print("Enter the stock's line number to see more details:     ");
@@ -102,6 +103,16 @@ public class StockTester {
                             changer.addNewList();
                             in.nextLine();
                         }
+                        
+                        /*      LIST REMOVAL YET TO BE FUNCTIONAL
+                        // if user wants to rm list
+//                        else if(userInput == -2){
+//                            System.out.println("Please enter the exact name of the list to be removed:     ");
+//                            String listName = in.next();
+//                            changer.removeList(listName);
+//                        }
+                        **/
+
                         //if user wants to quit
                         else if(userInput == 0){
                             finished = true;
@@ -116,13 +127,12 @@ public class StockTester {
     }     
 }    
 
-        //TODO::     ask the user if they would like add or delete items from the list
+        //TODO::     give the user ability to add or delete items from a specific list
         
-        //TODO::     create delete function in StockListChanger
+        //TODO::     create FUNCTIONAL delete function in StockListChanger
     
-        //TODO::     ask user if they would like to navigate
-        //TODO::     ask user if want to update
-        //TODO::     details if time
+        //TODO::     give user ability to update prices
+        
 
         
 
