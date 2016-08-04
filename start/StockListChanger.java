@@ -21,6 +21,8 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPath;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 
@@ -159,4 +161,81 @@ public class StockListChanger {
         pick.appendChild(r);
         return pick;
     }
+    
+    public void removeList(String listName){
+        //get node list
+        NodeList listNodes = doc.getElementsByTagName("list");
+        //create parser
+        StockListParser parser = new StockListParser();
+        //test sizes
+        System.out.println(listNodes.getLength());
+        System.out.println(parser.getStockLists().size());
+        //find proper node
+        for (int i=0;i<listNodes.getLength();i++){
+            if (listName.equals(parser.getStockList(i).getListCategory())){
+                //found
+                Element listToRemove = (Element)doc.getElementsByTagName("list").item(i);
+                //one more test
+                System.out.println(listToRemove.getAttributeNode("cat")+" must match "+ listName);
+                //remove
+                doc.removeChild(listNodes.item(i));
+            }
+        }
+    }
+//    public void addToList(String listName){
+//        
+//    //Instantiate necessary variables
+//                //define root
+//                Element root = doc.getDocumentElement();
+//                //creates node list
+//                NodeList listNodes = doc.getElementsByTagName("cat");
+//                //create list Element
+//                Element currentList;
+//                //find proper node
+//                for(int i = 0; i<listNodes.getLength(); i++){
+//                    if (listName == (Element)listNodes.item(i)){
+//                        currentList = (Element)listNodes.item(i);
+//                    }
+//                    else {
+//                        System.out.println("No Match Try Again");
+//                    }
+//                }
+//                
+//
+//                
+//            System.out.print("Please enter the ticker of the stock you would like to add:   ");
+//            String ticker = in.next();
+//            int rank = 0;
+//                //Error Handler
+//            boolean valid = false;
+//            while (!valid) {
+//                try {
+//
+//                    System.out.print("Please enter a rank you would like to associate with the stock:   ");
+//                    rank = in.nextInt();
+//
+//                    valid = true;
+//                }
+//                catch(InputMismatchException e) {
+//                    System.err.println("\nINVALID INPUT::   Please enter your rank as an integer:   ");
+//                    rank = in.nextInt();
+//                }
+//                
+//            }
+//                
+//            //create element
+//            Element newElement=addPick(list, ticker, rank);
+//            root.appendChild(newElement);
+//                
+//            //   Update DOM
+//            try{
+//            DOMSource update = new DOMSource(doc);
+//            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+//            Transformer transformer = transformerFactory.newTransformer();
+//            StreamResult previous = new StreamResult("src/com/test/itemsEX.xml");
+//            transformer.transform(update, previous);
+//            }
+//            catch(TransformerException e){
+//                e.printStackTrace();
+//            }
 }
