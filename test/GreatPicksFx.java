@@ -68,60 +68,6 @@ public class GreatPicksFx extends Application {
         }
     }
     
-    @Override
-    public void start(Stage primaryStage) {
-        //create Parser and Parse existing content
-        parser = new StockListParser();
-        parser.parse("src/com/test/itemsEX.xml");
-
-        //declare stage
-        stage = primaryStage;
-        //declare root
-        StackPane root = new StackPane();
-
-
-
-
-//Set up scene 1
-        //create buttons
-        changerButton = new Button("Edit Portfolio");
-        changerButton.setOnAction(e -> handleButtonAction(e));
-        //create buttons from category info
-        getCategoryButtons(parser.getStockLists(), categoryButtons);
-        for (Button catButton : categoryButtons){
-            catButton.setOnAction(e -> handleButtonAction(e));
-        }
-
-        //create flow pane
-        fpPortfolio = new FlowPane();
-        fpPortfolio.getChildren().addAll(changerButton);
-        fpPortfolio.getChildren().addAll(categoryButtons);
-        fpPortfolio.setPadding(new Insets(15));
-        fpPortfolio.setStyle("-fx-background: [204, 255, 255];");
-
-        
-//Set up scene 2
-        //TODO: create buttons from List info
-        for (Button catButton : categoryButtons){
-            catButton.setOnAction(e -> handleButtonAction(e));
-        }
-
-        //create flow pane
-        fpList = new FlowPane();
-        fpList.getChildren().addAll(changerButton);
-        fpList.getChildren().addAll(categoryButtons);
-        fpList.setPadding(new Insets(15));
-     //   fpList.setStyle("-fx-background: tan;");
-
-        scenePortfolio = new Scene(fpPortfolio, 780, 800);
-        sceneList = new Scene(fpList, 780, 800);
-        System.out.println("TTTTTTTTEEEEEEEESSSSSSSTTTTTTTTT\n" + parser.getStockLists().get(0).getPicks().get(0).tik);
-
-        stage.setTitle("Great Picks");
-        stage.setScene(scenePortfolio);
-        stage.show();
-    }
-    
     /**
      * button event handler
      * @param e 
@@ -139,11 +85,79 @@ public class GreatPicksFx extends Application {
         }
     }
     
+    @Override
+    public void start(Stage primaryStage) {
+
+        
+        
+        
+        //create Parser and Parse existing content
+        parser = new StockListParser();
+        parser.parse("src/com/test/itemsEX.xml");
+
+        //declare stage
+        stage = primaryStage;
+
+
+
+//Set up scene 1
+        //create buttons
+        changerButton = new Button("Edit Portfolio");
+        changerButton.setOnAction(e -> handleButtonAction(e));
+        //create buttons from category info
+        getCategoryButtons(parser.getStockLists(), categoryButtons);
+        for (Button catButton : categoryButtons){
+            catButton.setOnAction(e -> handleButtonAction(e));
+        }
+        
+
+
+        //create flow pane
+        fpPortfolio = new FlowPane();
+        fpPortfolio.getChildren().add(changerButton);
+        for(Button catButton : categoryButtons){
+            fpPortfolio.getChildren().add(catButton);
+        }
+        fpPortfolio.setPadding(new Insets(15));
+        fpPortfolio.setStyle("-fx-background: [204, 255, 255];");
+
+        
+//Set up scene 2
+        //TODO: create buttons from List info
+        for (Button catButton : categoryButtons){
+            catButton.setOnAction(e -> handleButtonAction(e));
+        }
+
+        //create flow pane
+        fpList = new FlowPane();
+        fpList.getChildren().add(changerButton);
+        for(Button catButton : categoryButtons){
+            fpList.getChildren().add(catButton);
+        }
+        fpList.setPadding(new Insets(15));
+     //   fpList.setStyle("-fx-background: tan;");
+
+        scenePortfolio = new Scene(fpPortfolio, 500, 750);
+        sceneList = new Scene(fpList, 500, 750);
+        System.out.println("TTTTTTTTEEEEEEEESSSSSSSTTTTTTTTT\n" + parser.getStockLists().get(0).getPicks().get(0).tik);
+        
+        //declare root
+        StackPane root = new StackPane();
+
+
+        stage.setTitle("Great Picks");
+        stage.setScene(scenePortfolio);
+        stage.focusedProperty();
+        stage.show();
+    }
+    
+
+    
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        launch(args);
+        Application.launch(args);
     }
 }
