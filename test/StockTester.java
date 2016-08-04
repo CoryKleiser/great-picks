@@ -29,6 +29,7 @@ public class StockTester {
         StockListChanger changer = new StockListChanger();
         int userInput;
         ArrayList<Pick> userPickSelection = new ArrayList<>();
+        String listInfo="";
         Scanner in = new Scanner(System.in);
         int i=0;
         String optionsPrompt = "#Options  ::\n"
@@ -51,29 +52,32 @@ public class StockTester {
 
             System.out.println(optionsPrompt);
 
-        
+        boolean valid=false;
+
         boolean finished = false;
         while(!finished){
-            for(StockList aList : yourLists){
-                i++;
-                System.out.println("List "+i+")     "+aList.getListCategory());
-            }
-            i=0;
 
 
             //TODO:: catch user error
             System.out.println("You can enter -1 to add a list ");
 //            System.out.println("Or enter the list number to view an existing list");
-                boolean valid=false;
-                while(!valid){
+                while(!finished){
+                for(StockList aList : yourLists){
+                    i++;
+                    System.out.println("List "+i+")     "+aList.getListCategory());
+                }
+                i=0;
                     try{
-                        System.out.print("If you would view a list enter the line number:    ");
+                        System.out.print("If you would like to view a list enter the line number:    ");
                         userInput = in.nextInt();
                         if(userInput<1|userInput>yourLists.size()){
                             if (userInput == -1){
                                 changer.addNewList();
+                                continue;
                             }
-                            continue;
+                            else if(userInput == 0){
+                                finished = true;
+                            }
                         }
                         else{
                             userInput = userInput-1;
@@ -84,20 +88,21 @@ public class StockTester {
                                 System.out.print("\nPick "+i+")     "+pick.getTicker()+"       Price: "+pick.getSharePrice()+" "+pick.getStock().getCurrency()+"\n");
                             }
                             i=0;
-                            valid=true;
                         }
-
-
                     }
                     catch(InputMismatchException e){
                       System.err.println(invalidSelection);
                       in.nextLine();
                     }
                     try{
-                        System.out.print("Enter the stock's line number to see more details");
+                        System.out.print("Enter the stock's line number to see more details:     ");
+                        in.nextLine();
+
                         userInput = in.nextInt();
-                        if(userInput<0|userInput>userPickSelection.size()){
-                            System.out.print(userPickSelection.get(userInput-1).format());
+                        
+                        if(userInput<1|userInput>userPickSelection.size()){
+                            userInput=userInput-1;
+                            System.out.print(userPickSelection.get(userInput).format());
                         }
                     }
                     catch(InputMismatchException e){
@@ -105,7 +110,7 @@ public class StockTester {
                         in.nextLine();
                     }
                     try{
-                    System.out.print("Enter 0 to quit/Enter anything to continue your lists");
+                    System.out.print("Enter 0 to quit/Enter anything to continue your lists:     ");
                     userInput = in.nextInt();
                     if (userInput == 0);
                         return;
@@ -114,10 +119,9 @@ public class StockTester {
                         in.nextLine();
                     }
             }
-
-            
-            
-        
+        }    
+    }     
+}    
 
         //TODO::     ask the user if they would like add or delete items from the list
         
@@ -130,8 +134,7 @@ public class StockTester {
         
 
         
-        
-    }
+
 //    private static void handleInput(String re){
 //        Scanner in = new Scanner(System.in);
 //                //add commands to list
@@ -200,6 +203,3 @@ public class StockTester {
 //            
 //        }
 //    }
-}
-}
-
