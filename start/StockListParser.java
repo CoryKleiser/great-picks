@@ -24,6 +24,8 @@ import org.xml.sax.SAXException;
 public class StockListParser {
     private DocumentBuilder builder;
     private XPath path;
+    ArrayList<StockList> stockLists = new ArrayList<>();
+
 
    /**
       Constructs a parser that can parse item lists.
@@ -52,7 +54,6 @@ public class StockListParser {
             Document doc = builder.parse(f);
             
             //variable to hold all StockList objects
-            ArrayList<StockList> stockLists = new ArrayList<>();
             
             //Finds amount of lists in data file
             int listCount = Integer.parseInt(path.evaluate("count(/lists/list)", doc));
@@ -103,17 +104,23 @@ public class StockListParser {
             return null;
         }
     }
-    public ArrayList<String> listCategories(ArrayList<StockList> l){
+    public StockList getStockList(int i){
+        return stockLists.get(i);
+    }
+    public ArrayList<StockList> getStockLists(){
+        return stockLists;
+    }
+    public ArrayList<String> listCategories(){
         try{
             //instantiates categories variable for display
             ArrayList<String> categories = new ArrayList<String>();
 
             //Finds amount of lists in data file
-            int cycleCount = l.size();
+            int cycleCount = stockLists.size();
             //gets individual categories
             for (int i=0; i < cycleCount; i++){
                 //find cat
-                String cat = l.get(i).pickCategory;
+                String cat = stockLists.get(i).getListCategory();
                 //add cat to list
                 categories.add(cat);
             }

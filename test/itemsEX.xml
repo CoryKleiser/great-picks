@@ -12,4 +12,4 @@
             <lastUpdatedPrice>122.53</lastUpdatedPrice>
         </pick>
     </list>
-</lists>
+<list><cat>New List</cat><pick><ticker>GOOGL</ticker><rank>2</rank><lastUpdatedPrice>798.92</lastUpdatedPrice></pick><pick><ticker>IBM</ticker><rank>5</rank><lastUpdatedPrice>160.67</lastUpdatedPrice></pick></list></lists>

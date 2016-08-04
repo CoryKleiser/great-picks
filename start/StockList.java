@@ -38,6 +38,14 @@ public class StockList {
         picks.add(aStock);
     }
     
+    public String getListCategory(){
+        return pickCategory;
+    }
+    
+    public ArrayList<Pick> getPicks(){
+        return picks;
+    }
+    
     /**
      * Finds more specific details for user
      * @param i place in Pick array
