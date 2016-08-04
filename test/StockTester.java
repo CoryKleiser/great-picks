@@ -6,11 +6,9 @@
 package com.test;
 
 import com.start.*;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import javax.xml.parsers.ParserConfigurationException;
 
 
 /**
@@ -33,13 +31,10 @@ public class StockTester {
         Scanner in = new Scanner(System.in);
         int i=0;
         String optionsPrompt = "#Options  ::\n"
-                + "     view POS_ON_LIST - displays specified list (specified by list position starting at 1)\n"
-                + "     add list - adds new StockList object with desired picks\n"
-                + "     rm list - deletes StockList object from your Portfolios\n"
-                + "     add pick - adds new pick to your list"
-                + "     rm pick - deletes pick from your list"
-                + "     help - displays this help menu"
-                + "     finish - quits program";
+                + "     This program uses integers to evaluate user input (specify list position starting at 1)\n"
+                + "     -1  --  add new StockList object with desired picks\n"
+                + "     -2 - deletes StockList object from your Portfolios\n"
+                + "     0 - quits program";
         String invalidSelection = "Please enter an option from from the list selection:     \n";
 
         
@@ -53,72 +48,70 @@ public class StockTester {
             System.out.println(optionsPrompt);
 
         boolean valid=false;
-
+       
         boolean finished = false;
         while(!finished){
 
 
             //TODO:: catch user error
-            System.out.println("You can enter -1 to add a list ");
+            System.out.println(optionsPrompt);
+            
 //            System.out.println("Or enter the list number to view an existing list");
-                while(!finished){
-                for(StockList aList : yourLists){
-                    i++;
-                    System.out.println("List "+i+")     "+aList.getListCategory());
-                }
-                i=0;
-                    try{
-                        System.out.print("If you would like to view a list enter the line number:    ");
-                        userInput = in.nextInt();
-                        if(userInput<1|userInput>yourLists.size()){
-                            if (userInput == -1){
-                                changer.addNewList();
-                                continue;
-                            }
-                            else if(userInput == 0){
-                                finished = true;
-                            }
-                        }
-                        else{
-                            userInput = userInput-1;
 
-                            userPickSelection = yourLists.get(userInput).getPicks();
+                    for(StockList aList : yourLists){
+                        i++;
+                        System.out.println("List "+i+")     "+aList.getListCategory());
+                    }
+                    i=0;
+                    try{
+                        //collect next int
+                        userInput = in.nextInt();
+                        //if list number selection
+                        if(userInput>=1 && userInput<=yourLists.size()){
+                            
+                            //find index
+                            int index = userInput-1;
+                            
+                            //get stockpicks from list
+                            userPickSelection = yourLists.get(index).getPicks();
+                            //print picks Ticker and price to console
                             for(Pick pick : userPickSelection){
                                 i++;
                                 System.out.print("\nPick "+i+")     "+pick.getTicker()+"       Price: "+pick.getSharePrice()+" "+pick.getStock().getCurrency()+"\n");
                             }
                             i=0;
+                            try{
+                                //prompt user
+                                System.out.print("Enter the stock's line number to see more details:     ");
+                                //collect input
+                                userInput = in.nextInt();
+                                //if selection from StockList
+                                if(userInput>=1 && userInput<=userPickSelection.size()){
+                                    index=userInput-1;
+                                    System.out.print(userPickSelection.get(index).format());
+                                }
+                            }
+                            catch(InputMismatchException | IndexOutOfBoundsException e){
+                                System.err.println(invalidSelection);
+                                in.nextLine();
+                            }
+                            
+                        }
+                        // if user wants to add list
+                        if (userInput == -1){
+                            changer.addNewList();
+                            in.nextLine();
+                        }
+                        //if user wants to quit
+                        else if(userInput == 0){
+                            finished = true;
                         }
                     }
-                    catch(InputMismatchException e){
+                    catch(InputMismatchException | IndexOutOfBoundsException e){
                       System.err.println(invalidSelection);
                       in.nextLine();
                     }
-                    try{
-                        System.out.print("Enter the stock's line number to see more details:     ");
-                        in.nextLine();
-
-                        userInput = in.nextInt();
-                        
-                        if(userInput<1|userInput>userPickSelection.size()){
-                            userInput=userInput-1;
-                            System.out.print(userPickSelection.get(userInput).format());
-                        }
-                    }
-                    catch(InputMismatchException e){
-                        System.err.println(invalidSelection);
-                        in.nextLine();
-                    }
-                    try{
-                    System.out.print("Enter 0 to quit/Enter anything to continue your lists:     ");
-                    userInput = in.nextInt();
-                    if (userInput == 0);
-                        return;
-                    }
-                    catch(InputMismatchException e){
-                        in.nextLine();
-                    }
-            }
+            
         }    
     }     
 }    

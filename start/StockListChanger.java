@@ -5,9 +5,7 @@
  */
 package com.start;
 
-import java.io.File;
 import java.io.IOException;
-import static java.lang.System.in;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import javax.xml.parsers.DocumentBuilder;
@@ -21,7 +19,6 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPath;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -100,6 +97,7 @@ public class StockListChanger {
                     response = in.next();
                 }            
                 if(response.equals("N")){
+                    System.out.println("!!Please Enter 0 to quit the program and restart so you can view your changes:  ");
                     edit = false;
                 }
             }

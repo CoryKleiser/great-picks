@@ -5,12 +5,9 @@
  */
 package com.start;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Calendar;
 import yahoofinance.Stock;
-import yahoofinance.YahooFinance;
 /**
  *Describes Weekly Stock Picks
  * @author corykleiser
@@ -20,7 +17,7 @@ public class StockList {
     public ArrayList<Pick> picks;
     
 /**
- * Creates a Category for your picks i.e. bulls/bear/week/month etc
+ * Constructs StockList and Category/Name for your picks i.e. bulls/bear/week/month etc
  * @param cat Enter List Name
  */    
     public StockList(String cat) {
@@ -37,11 +34,17 @@ public class StockList {
         Pick aStock = new Pick(ticker, rank);
         picks.add(aStock);
     }
-    
+    /**
+     * finds list name/category
+     * @return 
+     */
     public String getListCategory(){
         return pickCategory;
     }
-    
+    /**
+     * finds stock picks on list
+     * @return 
+     */
     public ArrayList<Pick> getPicks(){
         return picks;
     }

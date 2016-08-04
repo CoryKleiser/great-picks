@@ -25,4 +25,4 @@
         <lastUpdatedPrice>160.67</lastUpdatedPrice>
     </pick>
 </list>
-</lists>
+<list><cat>Cory's new List</cat><pick><ticker>cidm</ticker><rank>2</rank><lastUpdatedPrice>1.91</lastUpdatedPrice></pick><pick><ticker>sol</ticker><rank>1</rank><lastUpdatedPrice>1.21</lastUpdatedPrice></pick><pick><ticker>HEOFF</ticker><rank>1</rank><lastUpdatedPrice>1.2396</lastUpdatedPrice></pick></list><list><cat>another list</cat><pick><ticker>aapl</ticker><rank>1</rank><lastUpdatedPrice>105.87</lastUpdatedPrice></pick></list></lists>

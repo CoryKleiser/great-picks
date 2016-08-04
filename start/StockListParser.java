@@ -48,7 +48,10 @@ public class StockListParser {
       @return an array list containing all items in the XML file
     */
     public ArrayList<StockList> parse(String fileName) {
+        //var for price updates
         float lastUpdatedPrice;
+
+        //try to parse file
         try{
             File f = new File(fileName);
             Document doc = builder.parse(f);
@@ -64,7 +67,6 @@ public class StockListParser {
                 //find list category from data file
                 String listCat = path.evaluate("/lists/list[" + i + "]/cat", doc);
                 //test out list category
-                System.out.println("test listCat: "+listCat);
                 
                 //Instantiate StockList
                 StockList list = new StockList(listCat);
@@ -72,7 +74,7 @@ public class StockListParser {
                 //find pick count
                 int pickCount = Integer.parseInt(path.evaluate("count(/lists/list["+i+"]/pick)", doc));
                 //test out pick count
-                System.out.println("test pickCount: "+pickCount);
+                //System.out.println("test pickCount: "+pickCount);
 
                 //cycle through picks and instantiate Pick objects for each
                 for (int j = 1; j <= pickCount; j++){
@@ -80,12 +82,12 @@ public class StockListParser {
                     //find ticker
                     String ticker = path.evaluate("/lists/list[" + i +"]/pick["+j+"]/ticker", doc);
                     //test out ticker
-                    System.out.println("test ticker: "+ticker);
+                    //System.out.println("test ticker: "+ticker);
                     
                     //find rank
                     int rank = Integer.parseInt(path.evaluate("/lists/list[" + i + "]/pick[" + j + "]/rank", doc));
                     //test out rank
-                    System.out.println("test   " + rank);
+                    //System.out.println("test   " + rank);
                     
                     //get Last updated price
                     lastUpdatedPrice = Float.parseFloat(path.evaluate("/lists/list/pick[" + j + "]/lastUpdatedPrice", doc));
