@@ -6,6 +6,7 @@
 package com.start;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import javax.xml.parsers.DocumentBuilder;
@@ -21,6 +22,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+import yahoofinance.Stock;
+import yahoofinance.YahooFinance;
 
 
 /**
@@ -58,8 +61,25 @@ public class StockListChanger {
             
             boolean edit = true;
             while (edit){
-                System.out.print("Please enter the ticker of the stock you would like to add:   ");
-                String ticker = in.next();
+                
+                //instantiate ticker;
+                String ticker="";
+                boolean t = false;
+                while(!t){
+                    System.out.print("Please enter the ticker of the stock you would like to add:   ");
+                    ticker = in.next();
+                        //does the entry exist
+                         BigDecimal price = YahooFinance.get(ticker).getQuote().getPrice();
+                        
+                        if(price!=null){
+                            Stock stockPicked = YahooFinance.get(ticker);
+                            t=true;
+                        }
+                        else{
+                            System.err.println("\n     !!ERROR:: No Match!");
+                            System.out.println("Ah, Ah... I don't recognize this ticker\n\n");
+                        }
+                }
                 int rank = 0;
                         //Error Handler
                 boolean valid = false;
@@ -72,8 +92,9 @@ public class StockListChanger {
                         valid = true;
                     }
                     catch(InputMismatchException e) {
-                        System.err.println("\nINVALID INPUT::   Please enter your rank as an integer:   ");
-                        rank = in.nextInt();
+                        System.err.println("\n!!INVALID INPUT::   Not a Number");
+                        System.out.println("Please enter your rank as an integer.\n\n");
+                        in.nextLine();
                     }
                 }
             
@@ -93,10 +114,12 @@ public class StockListChanger {
 
 
                 while(!response.equals("N")&!response.equals("Y")){
-                    System.out.println("!! INVALID INPUT :: Please Enter Y or N");
+                    System.out.print("!! INVALID INPUT :: Please Enter Y or N\n\n"
+                            + "Would you like to add anouther stock to your new list? (Y/N):  ");
+                    in.nextLine();
                     response = in.next();
-                }            
-                if(response.equals("N")){
+                }
+                if(response.equals("N")|response.equals("n")){
                     System.out.println("!!Please Enter 0 to quit the program and restart so you can view your changes:  ");
                     edit = false;
                 }
@@ -114,23 +137,17 @@ public class StockListChanger {
     }
 
     private void findLastPickInfo(StockList list, Element pick){
+        //create price element for Price
         Element p = doc.createElement("lastUpdatedPrice");
-        String lastUpdatedPrice = "";
-
+        //instantiate price string
+        String lastUpdatedPrice;
+        
+        //find place
         int place = list.picks.size()-1;
-        boolean t=false;
-
-        while(!t){
-            try{
-
-                lastUpdatedPrice = list.picks.get(place).getSharePrice().toString();
-                t=true;
-            }
-            catch(NullPointerException e){
-                System.out.println("That is not a Ticker on any market I know. Please try again.   ");
-            }
-        }
-       
+        //get latest price
+        lastUpdatedPrice = list.picks.get(place).getSharePrice().toString();
+        
+        //append elements to DOM
         p.appendChild(doc.createTextNode(lastUpdatedPrice));
         pick.appendChild(p);
     }
@@ -160,26 +177,26 @@ public class StockListChanger {
         return pick;
     }
     
-    public void removeList(String listName){
-        //get node list
-        NodeList listNodes = doc.getElementsByTagName("list");
-        //create parser
-        StockListParser parser = new StockListParser();
-        //test sizes
-        System.out.println(listNodes.getLength());
-        System.out.println(parser.getStockLists().size());
-        //find proper node
-        for (int i=0;i<listNodes.getLength();i++){
-            if (listName.equals(parser.getStockList(i).getListCategory())){
-                //found
-                Element listToRemove = (Element)doc.getElementsByTagName("list").item(i);
-                //one more test
-                System.out.println(listToRemove.getAttributeNode("cat")+" must match "+ listName);
-                //remove
-                doc.removeChild(listNodes.item(i));
-            }
-        }
-    }
+//    public void removeList(String listName){
+//        //get node list
+//        NodeList listNodes = doc.getElementsByTagName("list");
+//        //create parser
+//        StockListParser parser = new StockListParser();
+//        //test sizes
+//        System.out.println(listNodes.getLength());
+//        System.out.println(parser.getStockLists().size());
+//        //find proper node
+//        for (int i=0;i<listNodes.getLength();i++){
+//            if (listName.equals(parser.getStockList(i).getListCategory())){
+//                //found
+//                Element listToRemove = (Element)doc.getElementsByTagName("list").item(i);
+//                //one more test
+//                System.out.println(listToRemove.getAttributeNode("cat")+" must match "+ listName);
+//                //remove
+//                doc.removeChild(listNodes.item(i));
+//            }
+//        }
+//    }
 //    public void addToList(String listName){
 //        
 //    //Instantiate necessary variables

@@ -31,23 +31,21 @@ public class StockTester {
         Scanner in = new Scanner(System.in);
         int i=0;
         String optionsPrompt = "#Options  ::\n"
-                + "     This program uses integers to evaluate user input (specify list position starting at 1)\n"
-                + "     -1  --  add new StockList object with desired picks\n"
-                + "     -2 - deletes StockList object from your Portfolios\n"
-                + "     0 - quits program";
+                + "     *NOTE:: After adding a new list you must quit and restart the program to update\n"
+                + "     *NOTE:: This program uses mostly integers to evaluate user input\n"
+                + "     *NOTE:: Specify list positions starting at 1\n"
+                + "     -1  --  add new Stock List with desired picks\n"
+                + "      0  --  quits program";
         String invalidSelection = "Please enter an option from from the list selection:     \n";
 
         
 
         
 
-        System.out.println("\nHello");
+        System.out.println("\n     Hello!!\n\nWelcome Great Picks");
         
         //starts
 
-            System.out.println(optionsPrompt);
-
-        boolean valid=false;
        
         boolean finished = false;
         while(!finished){
@@ -58,71 +56,70 @@ public class StockTester {
             
 //            System.out.println("Or enter the list number to view an existing list");
 
-                    for(StockList aList : yourLists){
+            for(StockList aList : yourLists){
+                i++;
+                System.out.println("List "+i+")     "+aList.getListCategory());
+            }
+            i=0;
+            try{
+                //collect next int
+                userInput = in.nextInt();
+                //if list number selection
+                if(userInput>=1 && userInput<=yourLists.size()){
+
+                    //find index
+                    int index = userInput-1;
+
+                    //get stockpicks from list
+                    userPickSelection = yourLists.get(index).getPicks();
+                    //print picks Ticker and price to console
+                    for(Pick pick : userPickSelection){
                         i++;
-                        System.out.println("List "+i+")     "+aList.getListCategory());
+                        System.out.print("\nPick "+i+")     "+pick.getTicker()+"       Price: "+pick.getSharePrice()+" "+pick.getStock().getCurrency()+"\n");
                     }
                     i=0;
+                    //::     company financial details time
                     try{
-                        //collect next int
+                        //prompt user
+                        System.out.print("Enter the stock's line number to see more details:     ");
+                        //collect input
                         userInput = in.nextInt();
-                        //if list number selection
-                        if(userInput>=1 && userInput<=yourLists.size()){
-                            
-                            //find index
-                            int index = userInput-1;
-                            
-                            //get stockpicks from list
-                            userPickSelection = yourLists.get(index).getPicks();
-                            //print picks Ticker and price to console
-                            for(Pick pick : userPickSelection){
-                                i++;
-                                System.out.print("\nPick "+i+")     "+pick.getTicker()+"       Price: "+pick.getSharePrice()+" "+pick.getStock().getCurrency()+"\n");
-                            }
-                            i=0;
-                            //::     company financial details time
-                            try{
-                                //prompt user
-                                System.out.print("Enter the stock's line number to see more details:     ");
-                                //collect input
-                                userInput = in.nextInt();
-                                //if selection from StockList
-                                if(userInput>=1 && userInput<=userPickSelection.size()){
-                                    index=userInput-1;
-                                    System.out.print(userPickSelection.get(index).format());
-                                }
-                            }
-                            catch(InputMismatchException | IndexOutOfBoundsException e){
-                                System.err.println(invalidSelection);
-                                in.nextLine();
-                            }
-                            
-                        }
-                        // if user wants to add list
-                        if (userInput == -1){
-                            changer.addNewList();
-                            in.nextLine();
-                        }
-                        
-                        /*      LIST REMOVAL YET TO BE FUNCTIONAL
-                        // if user wants to rm list
-//                        else if(userInput == -2){
-//                            System.out.println("Please enter the exact name of the list to be removed:     ");
-//                            String listName = in.next();
-//                            changer.removeList(listName);
-//                        }
-                        **/
-
-                        //if user wants to quit
-                        else if(userInput == 0){
-                            finished = true;
+                        //if selection from StockList
+                        if(userInput>=1 && userInput<=userPickSelection.size()){
+                            index=userInput-1;
+                            System.out.print(userPickSelection.get(index).format());
                         }
                     }
                     catch(InputMismatchException | IndexOutOfBoundsException e){
-                      System.err.println(invalidSelection);
-                      in.nextLine();
+                        System.err.println(invalidSelection);
+                        in.nextLine();
                     }
-            
+
+                }
+                // if user wants to add list
+                if (userInput == -1){
+                    changer.addNewList();
+                    in.nextLine();
+                }
+
+                /*      LIST REMOVAL YET TO BE FUNCTIONAL
+                 if user wants to rm list
+                        else if(userInput == -2){
+                            System.out.println("Please enter the exact name of the list to be removed:     ");
+                            String listName = in.next();
+                            changer.removeList(listName);
+                        }
+                **/
+
+                //if user wants to quit
+                else if(userInput == 0){
+                    finished = true;
+                }
+            }
+            catch(InputMismatchException | IndexOutOfBoundsException e){
+              System.err.println(invalidSelection);
+              in.nextLine();
+            }
         }    
     }     
 }    

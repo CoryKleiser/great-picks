@@ -100,7 +100,7 @@ public class Pick {
                     + "     Last Exchange: " + lastTrade + "\n"
                     + "     spread:        " + dayLow + " - " + dayHigh + "\n"
                     + "     PEG ratio:     " + peg + "\n"
-                    + "     Dividend:      " + dividend + "\n";
+                    + "     Dividend:      " + dividend + "\n\n\n\n\n\n\n";
             return d;
     }
         
