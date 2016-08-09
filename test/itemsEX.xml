@@ -1,2 +1,48 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><lists>
-<list><cat>Default Tech List</cat><pick><ticker>FB</ticker><rank>1</rank><lastUpdatedPrice>124.36</lastUpdatedPrice></pick><pick><ticker>GOOGL</ticker><rank>2</rank><lastUpdatedPrice>797.25</lastUpdatedPrice></pick><pick><ticker>AAPL</ticker><rank>5</rank><lastUpdatedPrice>105.87</lastUpdatedPrice></pick><pick><ticker>MSFT</ticker><rank>5</rank><lastUpdatedPrice>57.39</lastUpdatedPrice></pick><pick><ticker>ORCL</ticker><rank>3</rank><lastUpdatedPrice>40.90</lastUpdatedPrice></pick></list></lists>
+<list>
+    <cat>Default Tech List</cat>
+    <pick>
+        <ticker>FB</ticker>
+        <rank>1</rank>
+        <lastUpdatedPrice>124.36</lastUpdatedPrice>
+    </pick>
+    <pick>
+        <ticker>GOOGL</ticker>
+        <rank>2</rank>
+        <lastUpdatedPrice>797.25</lastUpdatedPrice>
+    </pick>
+    <pick>
+        <ticker>AAPL</ticker>
+        <rank>5</rank>
+        <lastUpdatedPrice>105.87</lastUpdatedPrice>
+    </pick>
+    <pick>
+        <ticker>MSFT</ticker>
+        <rank>5</rank>
+        <lastUpdatedPrice>57.39</lastUpdatedPrice>
+    </pick>
+    <pick>
+        <ticker>ORCL</ticker>
+        <rank>3</rank>
+        <lastUpdatedPrice>40.90</lastUpdatedPrice>
+    </pick>
+</list>
+<list>
+    <cat>Default Energy List</cat>
+    <pick>
+        <ticker>PWE</ticker>
+        <rank>5</rank>
+        <lastUpdatedPrice>1.35</lastUpdatedPrice>
+    </pick>
+    <pick>
+        <ticker>SCTY</ticker>
+        <rank>4</rank>
+        <lastUpdatedPrice>24.38</lastUpdatedPrice>
+    </pick>
+    <pick>
+        <ticker>SOL</ticker>
+        <rank>2</rank>
+        <lastUpdatedPrice>1.21</lastUpdatedPrice>
+    </pick>
+</list>
+</lists>
